@@ -1,0 +1,92 @@
+<html>
+  <head>
+  </head>
+  <body>
+    
+    <script>
+
+      var tm = {
+
+        list: [
+
+          {
+            title: 'go',
+            content: 'home',
+            label: false
+          },
+
+          {
+            title: 'see',
+            content: 'sea',
+            label: false
+          },
+
+          {
+            title: 'drink',
+            content: 'wine',
+            label: true
+          }
+        ],
+
+        isUnique(t, c) {
+          return !(this.list.some(element => element['title'] === t) || this.list.some(element => element['content'] === c))
+        },
+
+        doesExist(input) {
+          return (this.list.some(element => element['title'] === input) || this.list.some(element => element['content'] === input))
+        },
+
+        add(title, content) {
+          if (tm.isUnique(title, content)) {
+            this.list.push({title, content, label: false});
+            return tm.list;
+          } else {
+            throw console.error('not unique');
+          }
+        },
+
+        edit(input, newTitle, newContent) {
+
+          if (!this.doesExist(input)) {
+            throw console.error('task not found');
+          } else if (tm.isUnique(newTitle, newContent)) {
+            const currentTaskIndex = tm.list.findIndex(element => element['title'] === input || element['content'] === input);
+            this.list[currentTaskIndex]['title'] = newTitle;
+            this.list[currentTaskIndex]['content'] = newContent;
+            return tm.list;
+          } else {
+            throw console.error('new title or content is not unique');
+          }
+
+        },
+
+        remove(input) {
+
+          if (!tm.doesExist(input)) {
+            throw console.error('task not found');
+          } else {
+            this.list = this.list.filter(element => element.title !== input);
+            return tm.list;
+          }
+        },
+
+        statistics() {
+
+          var stat = {
+            total: tm.list.length,
+            done: tm.list.filter(element => element['label']).length,
+            'not done': tm.list.length - tm.list.filter(element => element['label']).length,
+          }
+
+          return console.log(stat);
+
+        },
+
+      }
+
+      console.log(tm.list);
+      tm.statistics();
+
+    </script>
+  </body>
+</html> 
